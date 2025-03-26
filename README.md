@@ -2,4 +2,4 @@
 
 ## TODO
 
-- [ ] Setup Phaser
+- [x] Setup Phaser
