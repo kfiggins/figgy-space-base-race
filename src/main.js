@@ -13,18 +13,37 @@ const config = {
 };
 
 function preload() {
-  // Load your assets here
+  this.load.image("spaceship", "/test/spaceship.png");
 }
 
 function create() {
-  this.add.text(200, 300, "Hello Phaser!", {
-    font: "32px Arial",
-    fill: "#ffffff",
+  // Store spaceship on the scene
+  this.spaceship = this.add.image(400, 300, "spaceship");
+  this.spaceship.setScale(0.1);
+
+  // Store WASD keys on the scene
+  this.wasd = this.input.keyboard.addKeys({
+    up: Phaser.Input.Keyboard.KeyCodes.W,
+    down: Phaser.Input.Keyboard.KeyCodes.S,
+    left: Phaser.Input.Keyboard.KeyCodes.A,
+    right: Phaser.Input.Keyboard.KeyCodes.D,
   });
 }
 
 function update() {
-  // Game loop logic here
+  const { wasd, spaceship } = this;
+
+  if (wasd.left.isDown) {
+    spaceship.x -= 5;
+  } else if (wasd.right.isDown) {
+    spaceship.x += 5;
+  }
+
+  if (wasd.up.isDown) {
+    spaceship.y -= 5;
+  } else if (wasd.down.isDown) {
+    spaceship.y += 5;
+  }
 }
 
 new Phaser.Game(config);
