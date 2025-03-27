@@ -17,11 +17,9 @@ function preload() {
 }
 
 function create() {
-  // Store spaceship on the scene
   this.spaceship = this.add.image(400, 300, "spaceship");
   this.spaceship.setScale(0.1);
 
-  // Store WASD keys on the scene
   this.wasd = this.input.keyboard.addKeys({
     up: Phaser.Input.Keyboard.KeyCodes.W,
     down: Phaser.Input.Keyboard.KeyCodes.S,
