@@ -32,7 +32,6 @@ function create() {
     lifespan: { min: 500, max: 1500 },  // Varied lifespan
     gravityY: 0,
     frequency: -1,  // Emit immediately when active
-    quantity: 2,    // Number of particles per emission
   });
 
   this.particleEmitter.startFollow(this.spaceship, 0, 0, false);
@@ -89,7 +88,14 @@ function update() {
   spaceship.y += velocityY;
   
   if (isMoving) {
-    particleEmitter.emitParticle(2);
+    particleEmitter.ops.angle.loadConfig(
+      {
+        angle: {
+          min: ((spaceship.rotation + Math.PI / 2) * 180 / Math.PI) - 15,
+          max: ((spaceship.rotation + Math.PI / 2) * 180 / Math.PI) + 15,
+        }
+      });
+    particleEmitter.emitParticle(10);
   }
 }
 
