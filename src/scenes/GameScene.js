@@ -1,4 +1,3 @@
-// src/scenes/GameScene.js
 import Phaser from "phaser";
 
 class GameScene extends Phaser.Scene {
@@ -81,12 +80,11 @@ class GameScene extends Phaser.Scene {
     spaceship.y += velocityY;
 
     if (isMoving) {
-      particleEmitter.ops.angle.loadConfig(
-      {
+      particleEmitter.ops.angle.loadConfig({
         angle: {
-          min: ((spaceship.rotation + Math.PI / 2) * 180 / Math.PI) - 15,
-          max: ((spaceship.rotation + Math.PI / 2) * 180 / Math.PI) + 15,
-        }
+          min: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI - 15,
+          max: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI + 15,
+        },
       });
       particleEmitter.emitParticle(2);
     }
