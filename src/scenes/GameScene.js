@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { shoot } from "../bullets/util";
 import Rocket from "../bullets/rocket";
+import Plasma from "../bullets/plasma";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -10,6 +11,7 @@ class GameScene extends Phaser.Scene {
   preload() {
     // Assets specific to this scene could be loaded here if needed
     this.load.image("rocket", "public/test/rocket.png")
+    this.load.image("plasma", "public/test/blue-plasma.png")
   }
 
   create() {

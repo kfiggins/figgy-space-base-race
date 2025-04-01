@@ -27,7 +27,7 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
 
     // Calculate direction vector
     const angle = Phaser.Math.Angle.Between(x, y, targetX, targetY);
-    const speed = 400;
+    const speed = 350;
     this.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 
     this.setRotation(angle + Math.PI);
