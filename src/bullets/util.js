@@ -4,3 +4,10 @@ export const shoot = (scene, targetX, targetY) => {
     bullet.fire(scene.spaceship.x, scene.spaceship.y, targetX, targetY);
   }
 }
+
+export const calculateAngle = (angle, diff) => {
+  return {
+    min: (((angle + Math.PI) * 180) / Math.PI) - diff,
+    max: (((angle + Math.PI) * 180) / Math.PI) + diff,
+  }
+}

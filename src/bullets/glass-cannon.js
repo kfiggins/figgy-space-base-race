@@ -1,18 +1,18 @@
 import { calculateAngle } from "./util";
 
-export default class Rocket extends Phaser.Physics.Arcade.Sprite {
+export default class GlassCannon extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'rocket');
-    this.setScale(0.03)
+    super(scene, x, y, 'glassCannon');
+    this.setScale(0.02)
     this.setDepth(1)
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.particleEmitterRocket = scene.add.particles(0, 0, "spark", {
-      speed: { min: 50, max: 100 },
-      scale: { start: 0.08, end: 0, ease: "Power3" },
+    this.particleEmitterRocket = scene.add.particles(0, 0, "blue-spark", {
+      speed: { min: 0, max: 1 },
+      scale: { start: 0.1, end: 0, ease: "Power3" },
       blendMode: Phaser.BlendModes.ADD,
-      lifespan: { min: 100, max: 500 },
+      lifespan: 750,
       gravityY: 0,
       frequency: -1,
     });
@@ -26,7 +26,7 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
 
     // Calculate direction vector
     const angle = Phaser.Math.Angle.Between(x, y, targetX, targetY);
-    const speed = 350;
+    const speed = 1000;
     this.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 
     this.setRotation(angle + Math.PI);
@@ -35,12 +35,12 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
     this.setVisible(true);
 
     this.particleEmitterRocket.ops.angle.loadConfig({
-      angle: calculateAngle(angle, 30),
+      angle: calculateAngle(angle, 0),
     });
 
 
     this.scene.time.addEvent({
-      delay: 2500,
+      delay: 1000,
       callback: () => {
         this.setActive(false);
         this.setVisible(false);
@@ -49,6 +49,6 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    this.particleEmitterRocket.emitParticle(2);
+    this.particleEmitterRocket.emitParticle(1);
   }
 }

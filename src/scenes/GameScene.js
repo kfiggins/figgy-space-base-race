@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import { shoot } from "../bullets/util";
 import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
+import GlassCannon from "../bullets/glass-cannon";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -10,8 +11,6 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     // Assets specific to this scene could be loaded here if needed
-    this.load.image("rocket", "public/test/rocket.png")
-    this.load.image("plasma", "public/test/blue-plasma.png")
   }
 
   create() {
@@ -23,7 +22,7 @@ class GameScene extends Phaser.Scene {
     this.spaceship.velocityY = 0;
     this.spaceship.maxSpeed = 0;
     this.spaceship.currentWeaponIndex = 0;
-    this.spaceship.weapons = [Rocket, Plasma]
+    this.spaceship.weapons = [Rocket, Plasma, GlassCannon]
     this.spaceship.bullet = this.physics.add.group({
       classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex],
       runChildUpdate: true,
@@ -36,7 +35,7 @@ class GameScene extends Phaser.Scene {
       angle: { min: 0, max: 360 },
       scale: { start: 0.1, end: 0, ease: "Power3" },
       blendMode: Phaser.BlendModes.ADD,
-      lifespan: { min: 500, max: 1500 },
+      lifespan: { min: 1000, max: 6000 },
       gravityY: 0,
       frequency: -1,
     });
