@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import { shoot } from "../bullets/util";
+import Rocket from "../bullets/rocket";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -7,16 +9,26 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     // Assets specific to this scene could be loaded here if needed
+    this.load.image("rocket", "public/test/rocket.png")
   }
 
   create() {
     this.spaceship = this.add.image(400, 300, "spaceship");
     this.spaceship.setScale(0.2);
-    this.spaceship.setDepth(1);
+    this.spaceship.setDepth(10);
     this.spaceship.speed = 0;
     this.spaceship.velocityX = 0;
     this.spaceship.velocityY = 0;
     this.spaceship.maxSpeed = 0;
+    this.spaceship.bullet = this.physics.add.group({
+      classType: Rocket,
+      runChildUpdate: true,
+    })
+
+    this.input.on('pointerdown', (pointer) => {
+      shoot(this, pointer.x, pointer.y);
+    });
+
 
     this.particleEmitter = this.add.particles(0, 0, "spark", {
       x: { min: -5, max: 5 },
@@ -47,6 +59,7 @@ class GameScene extends Phaser.Scene {
     const maxSpeed = 5;
     const friction = 1.03;
     const minVelocity = 0.1;
+    const particleAngle = 10;
     let yIsMoving = false;
     let xIsMoving = false;
 
@@ -117,8 +130,8 @@ class GameScene extends Phaser.Scene {
     if (yIsMoving || xIsMoving) {
       particleEmitter.ops.angle.loadConfig({
         angle: {
-          min: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI - 15,
-          max: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI + 15,
+          min: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI - particleAngle,
+          max: ((spaceship.rotation + Math.PI / 2) * 180) / Math.PI + particleAngle,
         },
       });
       particleEmitter.emitParticle(2);
