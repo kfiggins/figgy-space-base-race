@@ -22,15 +22,12 @@ class GameScene extends Phaser.Scene {
     this.spaceship.velocityX = 0;
     this.spaceship.velocityY = 0;
     this.spaceship.maxSpeed = 0;
+    this.spaceship.currentWeaponIndex = 0;
+    this.spaceship.weapons = [Rocket, Plasma]
     this.spaceship.bullet = this.physics.add.group({
-      classType: Rocket,
+      classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex],
       runChildUpdate: true,
     })
-
-    this.input.on('pointerdown', (pointer) => {
-      shoot(this, pointer.x, pointer.y);
-    });
-
 
     this.particleEmitter = this.add.particles(0, 0, "spark", {
       x: { min: -5, max: 5 },
@@ -46,6 +43,10 @@ class GameScene extends Phaser.Scene {
 
     this.particleEmitter.startFollow(this.spaceship, 0, 0, false);
 
+    this.input.on('pointerdown', (pointer) => {
+      shoot(this, pointer.x, pointer.y);
+    });
+    this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.wasd = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -64,6 +65,14 @@ class GameScene extends Phaser.Scene {
     const particleAngle = 10;
     let yIsMoving = false;
     let xIsMoving = false;
+
+    if (Phaser.Input.Keyboard.JustDown(this.eKey)) {
+      this.spaceship.currentWeaponIndex += 1;
+      this.spaceship.bullet = this.physics.add.group({
+        classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex % this.spaceship.weapons.length],
+        runChildUpdate: true,
+      })
+    };
 
     if (wasd.left.isDown) {
       spaceship.velocityX += -speedChange;
