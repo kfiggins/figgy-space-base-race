@@ -9,25 +9,36 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    // Assets specific to this scene could be loaded here if needed
-    this.load.image("rocket", "public/test/rocket.png")
-    this.load.image("plasma", "public/test/blue-plasma.png")
+    this.load.image("rocket", "/sprites/rocket.png");
+    this.load.image("plasma", "/sprites/blue-plasma.png");
+    this.load.image("starfield", "/tilesets/starfield.png");
   }
 
   create() {
-    this.spaceship = this.add.image(400, 300, "spaceship");
+    const worldWidth = 3000;
+    const worldHeight = 2000;
+
+    this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
+    this.add.tileSprite(0, 0, worldWidth, worldHeight, "starfield").setOrigin(0, 0);
+
+    this.spaceship = this.physics.add.sprite(400, 300, "spaceship");
     this.spaceship.setScale(0.2);
     this.spaceship.setDepth(10);
+    this.spaceship.setCollideWorldBounds(true);
     this.spaceship.speed = 0;
     this.spaceship.velocityX = 0;
     this.spaceship.velocityY = 0;
     this.spaceship.maxSpeed = 0;
     this.spaceship.currentWeaponIndex = 0;
-    this.spaceship.weapons = [Rocket, Plasma]
+    this.spaceship.weapons = [Rocket, Plasma];
     this.spaceship.bullet = this.physics.add.group({
       classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex],
       runChildUpdate: true,
-    })
+    });
+
+    this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
+    this.cameras.main.startFollow(this.spaceship, true, 0.09, 0.09);
+    this.cameras.main.setDeadzone(100, 100);
 
     this.particleEmitter = this.add.particles(0, 0, "spark", {
       x: { min: -5, max: 5 },
@@ -43,9 +54,11 @@ class GameScene extends Phaser.Scene {
 
     this.particleEmitter.startFollow(this.spaceship, 0, 0, false);
 
-    this.input.on('pointerdown', (pointer) => {
-      shoot(this, pointer.x, pointer.y);
+    this.input.on("pointerdown", (pointer) => {
+      const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
+      shoot(this, worldPoint.x, worldPoint.y);
     });
+
     this.eKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.wasd = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -56,9 +69,8 @@ class GameScene extends Phaser.Scene {
   }
 
   update() {
-    const { wasd, spaceship, particleEmitter, sys } = this;
-    const { width: gameWidth, height: gameHight } = sys.game.canvas;
-    const speedChange = 0.05
+    const { wasd, spaceship, particleEmitter } = this;
+    const speedChange = 0.05;
     const maxSpeed = 5;
     const friction = 1.03;
     const minVelocity = 0.1;
@@ -71,8 +83,8 @@ class GameScene extends Phaser.Scene {
       this.spaceship.bullet = this.physics.add.group({
         classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex % this.spaceship.weapons.length],
         runChildUpdate: true,
-      })
-    };
+      });
+    }
 
     if (wasd.left.isDown) {
       spaceship.velocityX += -speedChange;
@@ -109,34 +121,20 @@ class GameScene extends Phaser.Scene {
 
     // hit max speed. remove for fun
     if (spaceship.velocityX > maxSpeed) {
-      spaceship.velocityX = maxSpeed
+      spaceship.velocityX = maxSpeed;
     }
     if (spaceship.velocityX < -maxSpeed) {
-      spaceship.velocityX = -maxSpeed
+      spaceship.velocityX = -maxSpeed;
     }
     if (spaceship.velocityY > maxSpeed) {
-      spaceship.velocityY = maxSpeed
+      spaceship.velocityY = maxSpeed;
     }
     if (spaceship.velocityY < -maxSpeed) {
-      spaceship.velocityY = -maxSpeed
+      spaceship.velocityY = -maxSpeed;
     }
 
     spaceship.x += spaceship.velocityX;
     spaceship.y += spaceship.velocityY;
-
-    // Can remove when we have a way to move through map
-    if (spaceship.x > gameWidth) {
-      spaceship.x = 0
-    }
-    if (spaceship.x < 0) {
-      spaceship.x = gameWidth
-    }
-    if (spaceship.y > gameHight) {
-      spaceship.y = 0
-    }
-    if (spaceship.y < 0) {
-      spaceship.y = gameHight
-    }
 
     if (yIsMoving || xIsMoving) {
       particleEmitter.ops.angle.loadConfig({

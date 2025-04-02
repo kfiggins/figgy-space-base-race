@@ -6,8 +6,8 @@ class PreloadScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("spaceship", "/test/spaceship.png");
-    this.load.image("spark", "/test/spark.png");
+    this.load.image("spaceship", "/sprites/spaceship.png");
+    this.load.image("spark", "/sprites/spark.png");
   }
 
   create() {
