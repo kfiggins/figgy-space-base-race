@@ -16,7 +16,7 @@ class GameScene extends Phaser.Scene {
     this.load.image("spaceship", "/sprites/spaceship.png");
     this.load.image("spark", "/sprites/spark.png");
     this.load.image("blue-spark", "/sprites/blue-spark.png");
-    this.load.image("glassCannon", "public/sprites/glass-cannon.png")
+    this.load.image("glassCannon", "/sprites/glass-cannon.png");
   }
 
   create() {
@@ -35,7 +35,7 @@ class GameScene extends Phaser.Scene {
     this.spaceship.velocityY = 0;
     this.spaceship.maxSpeed = 0;
     this.spaceship.currentWeaponIndex = 0;
-    this.spaceship.weapons = [Rocket, Plasma, GlassCannon]
+    this.spaceship.weapons = [Rocket, Plasma, GlassCannon];
     this.spaceship.bullet = this.physics.add.group({
       classType: this.spaceship.weapons[this.spaceship.currentWeaponIndex],
       runChildUpdate: true,
