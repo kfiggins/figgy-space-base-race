@@ -8,7 +8,7 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
 
-    this.particleEmitterRocket = scene.add.particles(0, 0, "spark", {
+    this.particleEmitter = scene.add.particles(0, 0, "spark", {
       speed: { min: 50, max: 100 },
       scale: { start: 0.08, end: 0, ease: "Power3" },
       blendMode: Phaser.BlendModes.ADD,
@@ -17,8 +17,8 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
       frequency: -1,
     });
 
-    this.particleEmitterRocket.setDepth(0)
-    this.particleEmitterRocket.startFollow(this, 0, 0, false);
+    this.particleEmitter.setDepth(0)
+    this.particleEmitter.startFollow(this, 0, 0, false);
   }
 
   fire(x, y, targetX, targetY) {
@@ -34,7 +34,7 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
     this.setActive(true);
     this.setVisible(true);
 
-    this.particleEmitterRocket.ops.angle.loadConfig({
+    this.particleEmitter.ops.angle.loadConfig({
       angle: calculateAngle(angle, 30),
     });
 
@@ -49,6 +49,6 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
   }
 
   update() {
-    this.particleEmitterRocket.emitParticle(2);
+    this.particleEmitter.emitParticle(2);
   }
 }

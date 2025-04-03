@@ -1,3 +1,4 @@
+import Phaser from "phaser";
 import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
 import GlassCannon from "../bullets/glass-cannon";
@@ -5,11 +6,11 @@ import GlassCannon from "../bullets/glass-cannon";
 export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'spaceship');
+    scene.add.existing(this);
+    scene.physics.add.existing(this);
     this.scene = scene;
     this.setScale(0.2);
     this.setDepth(10);
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
     this.setCollideWorldBounds(true);
     this.speed = 0;
     this.velocityX = 0;
@@ -49,8 +50,8 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       gravityY: 0,
       frequency: -1,
     });
+    this.particleEmitter.setDepth(1)
     this.particleEmitter.startFollow(this, 0, 0, false);
-
   }
 
   update() {
