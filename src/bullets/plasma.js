@@ -1,8 +1,9 @@
-export default class Plasma extends Phaser.Physics.Arcade.Sprite {
+import BaseBullet from "./baseBullet";
+
+export default class Plasma extends BaseBullet {
   constructor(scene, x, y) {
     super(scene, x, y, 'plasma');
     this.setScale(0.3)
-    this.setDepth(1)
     scene.add.existing(this);
     scene.physics.add.existing(this);
   }

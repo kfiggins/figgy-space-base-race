@@ -1,10 +1,10 @@
+import BaseBullet from "./baseBullet";
 import { calculateAngle } from "./util";
 
-export default class GlassCannon extends Phaser.Physics.Arcade.Sprite {
+export default class GlassCannon extends BaseBullet {
   constructor(scene, x, y) {
     super(scene, x, y, 'glassCannon');
     this.setScale(0.18)
-    this.setDepth(1)
     scene.add.existing(this);
     scene.physics.add.existing(this);
 

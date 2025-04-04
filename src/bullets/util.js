@@ -1,5 +1,5 @@
 export const shoot = (scene, targetX, targetY) => {
-  const bullet = scene.player.bullet.get();
+  const bullet = scene.player.bullets.get();
   if (bullet) {
     bullet.fire(scene.player.x, scene.player.y, targetX, targetY);
   }

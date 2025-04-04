@@ -2,6 +2,7 @@ import Phaser from "phaser";
 import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
 import GlassCannon from "../bullets/glassCannon";
+import BaseBullet from "../bullets/baseBullet";
 
 export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -21,12 +22,24 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     this.speedChange = 0.05;
     this.particleAngle = 10;
     this.currentWeaponIndex = 0;
-    this.weapons = [Rocket, Plasma, GlassCannon];
-    this.bullet = scene.physics.add.group({
-      classType: this.weapons[this.currentWeaponIndex],
-      runChildUpdate: true,
-    });
 
+    
+    this.weapons = [
+      scene.physics.add.group({
+        classType: Rocket,
+        runChildUpdate: true,
+      }),
+      scene.physics.add.group({
+        classType: Plasma,
+        runChildUpdate: true,
+      }),
+      scene.physics.add.group({
+        classType: GlassCannon,
+        runChildUpdate: true,
+      }),
+    ];
+
+    this.bullets = this.weapons[0];
 
     this.eKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.wasd = scene.input.keyboard.addKeys({
@@ -37,10 +50,7 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     });
 
     this.particleEmitter = scene.add.particles(0, 0, "spark", {
-      x: { min: -5, max: 5 },
-      y: { min: -5, max: 5 },
       speed: { min: 50, max: 200 },
-      angle: { min: 0, max: 360 },
       scale: { start: 0.1, end: 0, ease: "Power3" },
       blendMode: Phaser.BlendModes.ADD,
       lifespan: { min: 1000, max: 6000 },
@@ -60,10 +70,7 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
 
     if (Phaser.Input.Keyboard.JustDown(eKey)) {
       player.currentWeaponIndex += 1;
-      player.bullet = scene.physics.add.group({
-        classType: player.weapons[player.currentWeaponIndex % player.weapons.length],
-        runChildUpdate: true,
-      });
+      player.bullets = player.weapons[player.currentWeaponIndex % player.weapons.length];
     }
 
     if (wasd.left.isDown) {

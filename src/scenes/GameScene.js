@@ -1,29 +1,46 @@
 import Phaser from "phaser";
 import { shoot } from "../bullets/util";
 import PlayerSpaceship from "../player/playerSpaceship";
+import EnemySpaceship from "../enemies/baseEnemySpaceship";
 import GruntSpaceship from "../enemies/gruntSpaceship";
 import StrikerSpaceship from "../enemies/strikerSpaceship";
 import DroneSpaceship from "../enemies/droneSpaceship";
 import GuardSpaceship from "../enemies/guardSpaceship";
+
 
 class GameScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
 
-  preload() {}
+  preload() { }
+  
+  handleBulletHitEnemy(bullet, enemy) {
+    // Destroy both on collision
+    bullet.hit();
+    enemy.takeDamage(100);
+
+    // Optionally do more (play sound, spawn particles, etc.)
+    console.log('Hit!');
+  }
 
   create() {
     const worldWidth = 3000;
     const worldHeight = 2000;
 
     this.player = new PlayerSpaceship(this, 400, 300);
-    this.enemies = [
-      new GruntSpaceship(this, 500, 500),
-      new StrikerSpaceship(this, 600, 600),
-      new DroneSpaceship(this, 500, 600),
-      new GuardSpaceship(this, 600, 500),
-    ]
+    this.enemies = this.physics.add.group({
+      classType: EnemySpaceship,
+      runChildUpdate: true,
+    });
+    this.enemies.add(new GruntSpaceship(this, 500, 500));
+    this.enemies.add(new StrikerSpaceship(this, 600, 600));
+    this.enemies.add(new DroneSpaceship(this, 500, 600));
+    this.enemies.add(new GuardSpaceship(this, 600, 500));
+    
+    this.player.weapons.forEach((weaponGroup) => {
+      this.physics.add.overlap(weaponGroup, this.enemies, this.handleBulletHitEnemy, null, this)
+    })
 
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
     this.add.tileSprite(0, 0, worldWidth, worldHeight, "starfield").setOrigin(0, 0);
