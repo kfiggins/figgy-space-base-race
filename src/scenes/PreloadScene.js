@@ -15,6 +15,8 @@ class PreloadScene extends Phaser.Scene {
     this.load.image("glassCannon", "/sprites/glassCannon.png");
     this.load.image("gruntSpaceship", "/sprites/gruntSpaceship.png");
     this.load.image("strikerSpaceship", "/sprites/strikerSpaceship.png");
+    this.load.image("droneSpaceship", "/sprites/droneSpaceship.png");
+    this.load.image("guardSpaceship", "/sprites/guardSpaceship.png");
   }
 
   create() {

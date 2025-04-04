@@ -3,6 +3,8 @@ import { shoot } from "../bullets/util";
 import PlayerSpaceship from "../player/playerSpaceship";
 import GruntSpaceship from "../enemies/gruntSpaceship";
 import StrikerSpaceship from "../enemies/strikerSpaceship";
+import DroneSpaceship from "../enemies/droneSpaceship";
+import GuardSpaceship from "../enemies/guardSpaceship";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -16,7 +18,12 @@ class GameScene extends Phaser.Scene {
     const worldHeight = 2000;
 
     this.player = new PlayerSpaceship(this, 400, 300);
-    this.enemies = [new GruntSpaceship(this, 500, 500), new StrikerSpaceship(this, 600, 600) ]
+    this.enemies = [
+      new GruntSpaceship(this, 500, 500),
+      new StrikerSpaceship(this, 600, 600),
+      new DroneSpaceship(this, 500, 600),
+      new GuardSpaceship(this, 600, 500),
+    ]
 
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
     this.add.tileSprite(0, 0, worldWidth, worldHeight, "starfield").setOrigin(0, 0);
