@@ -3,33 +3,30 @@ import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
 import GlassCannon from "../bullets/glass-cannon";
 
-export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
+export default class GruntSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'spaceship');
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.scene = scene;
-    this.setScale(0.2);
+    this.setScale(0.5);
     this.setDepth(10);
     this.setCollideWorldBounds(true);
     this.speed = 0;
     this.velocityX = 0;
     this.velocityY = 0;
-    this.maxSpeed = 0;
+    this.maxSpeed = 5;
+    this.friction = 1.03;
+    this.minVelocity = 0.1;
+    this.speedChange = 0.05;
+    this.particleAngle = 10;
     this.currentWeaponIndex = 0;
     this.weapons = [Rocket, Plasma, GlassCannon];
     this.bullet = scene.physics.add.group({
       classType: this.weapons[this.currentWeaponIndex],
       runChildUpdate: true,
     });
-    scene.add.existing(this);
-    scene.physics.add.existing(this);
 
-    this.speedChange = 0.05;
-    this.maxSpeed = 5;
-    this.friction = 1.03;
-    this.minVelocity = 0.1;
-    this.particleAngle = 10;
 
     this.eKey = scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
     this.wasd = scene.input.keyboard.addKeys({
