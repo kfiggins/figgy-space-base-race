@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import { shoot } from "../bullets/util";
 import PlayerSpaceship from "../player/spaceship";
-import GruntSpaceship from "../enemies/grunt-spaceship";
+import GruntSpaceship from "../enemies/gruntSpaceship";
 
 class GameScene extends Phaser.Scene {
   constructor() {

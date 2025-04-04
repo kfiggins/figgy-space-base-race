@@ -3,7 +3,7 @@ import { calculateAngle } from "./util";
 export default class Rocket extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'rocket');
-    this.setScale(0.03)
+    this.setScale(0.3)
     this.setDepth(1)
     scene.add.existing(this);
     scene.physics.add.existing(this);
@@ -29,7 +29,7 @@ export default class Rocket extends Phaser.Physics.Arcade.Sprite {
     const speed = 350;
     this.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 
-    this.setRotation(angle + Math.PI);
+    this.setRotation(angle + Math.PI/2);
 
     this.setActive(true);
     this.setVisible(true);

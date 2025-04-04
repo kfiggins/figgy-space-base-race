@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
-import GlassCannon from "../bullets/glass-cannon";
+import GlassCannon from "../bullets/glassCannon";
 
 export default class GruntSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
