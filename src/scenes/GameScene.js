@@ -16,12 +16,8 @@ class GameScene extends Phaser.Scene {
   preload() { }
   
   handleBulletHitEnemy(bullet, enemy) {
-    // Destroy both on collision
     bullet.hit();
     enemy.takeDamage(100);
-
-    // Optionally do more (play sound, spawn particles, etc.)
-    console.log('Hit!');
   }
 
   create() {
