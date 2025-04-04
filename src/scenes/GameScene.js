@@ -14,17 +14,11 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() { }
-  
-  handleBulletHitEnemy(bullet, enemy) {
-    bullet.hit();
-    enemy.takeDamage(100);
-  }
 
   create() {
     const worldWidth = 3000;
     const worldHeight = 2000;
 
-    this.player = new PlayerSpaceship(this, 400, 300);
     this.enemies = this.physics.add.group({
       classType: EnemySpaceship,
       runChildUpdate: true,
@@ -33,10 +27,9 @@ class GameScene extends Phaser.Scene {
     this.enemies.add(new StrikerSpaceship(this, 600, 600));
     this.enemies.add(new DroneSpaceship(this, 500, 600));
     this.enemies.add(new GuardSpaceship(this, 600, 500));
-    
-    this.player.weapons.forEach((weaponGroup) => {
-      this.physics.add.overlap(weaponGroup, this.enemies, this.handleBulletHitEnemy, null, this)
-    })
+
+    this.player = new PlayerSpaceship(this, 400, 300);
+
 
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
     this.add.tileSprite(0, 0, worldWidth, worldHeight, "starfield").setOrigin(0, 0);

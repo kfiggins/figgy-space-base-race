@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
 import GlassCannon from "../bullets/glassCannon";
-import BaseBullet from "../bullets/baseBullet";
+import { handleBulletHitEnemy } from "../enemies/util";
 
 export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
@@ -38,6 +38,10 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
         runChildUpdate: true,
       }),
     ];
+
+    this.weapons.forEach((weaponGroup) => {
+      scene.physics.add.overlap(weaponGroup, scene.enemies, handleBulletHitEnemy, null, scene)
+    })
 
     this.bullets = this.weapons[0];
 
