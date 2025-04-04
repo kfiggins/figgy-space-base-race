@@ -1,7 +1,7 @@
 export default class Plasma extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'plasma');
-    this.setScale(0.03)
+    this.setScale(0.3)
     this.setDepth(1)
     scene.add.existing(this);
     scene.physics.add.existing(this);

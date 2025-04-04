@@ -3,7 +3,7 @@ export default class GruntSpaceship extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, 'gruntSpaceship');
     scene.add.existing(this);
     scene.physics.add.existing(this);
-    this.setScale(0.03);
+    this.setScale(0.4);
     this.setDepth(9);
     this.setCollideWorldBounds(true);
 
