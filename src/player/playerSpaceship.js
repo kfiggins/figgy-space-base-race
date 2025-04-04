@@ -3,7 +3,7 @@ import Rocket from "../bullets/rocket";
 import Plasma from "../bullets/plasma";
 import GlassCannon from "../bullets/glassCannon";
 
-export default class GruntSpaceship extends Phaser.Physics.Arcade.Sprite {
+export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
     super(scene, x, y, 'spaceship');
     scene.add.existing(this);

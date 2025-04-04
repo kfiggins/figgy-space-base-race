@@ -29,7 +29,7 @@ export default class GlassCannon extends Phaser.Physics.Arcade.Sprite {
     const speed = 1000;
     this.setVelocity(Math.cos(angle) * speed, Math.sin(angle) * speed);
 
-    this.setRotation(angle + Math.PI/2);d
+    this.setRotation(angle + Math.PI/2);
 
     this.setActive(true);
     this.setVisible(true);
