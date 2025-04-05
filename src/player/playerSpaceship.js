@@ -10,7 +10,7 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.scene = scene;
-    this.setScale(0.5);
+    this.setScale(0.4);
     this.setDepth(10);
     this.setCollideWorldBounds(true);
     this.speed = 0;
