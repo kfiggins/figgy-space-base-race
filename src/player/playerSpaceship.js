@@ -125,7 +125,6 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       player.velocityY = -player.maxSpeed;
     }
 
-    // ✅ Scale position updates by frameScale
     player.x += player.velocityX * frameScale;
     player.y += player.velocityY * frameScale;
 
@@ -139,7 +138,6 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       player.particleEmitter.emitParticle(2);
     }
 
-    // ✅ Apply friction using exponent for frame independence
     if (!yIsMoving && player.velocityY !== 0) {
       player.velocityY /= Math.pow(player.friction, frameScale);
       if (Math.abs(player.velocityY) < player.minVelocity) {
