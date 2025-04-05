@@ -6,7 +6,7 @@ import { handleBulletHitEnemy } from "../enemies/util";
 
 export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'spaceship');
+    super(scene, x, y, "spaceship");
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.scene = scene;
@@ -23,7 +23,6 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     this.particleAngle = 10;
     this.currentWeaponIndex = 0;
 
-    
     this.weapons = [
       scene.physics.add.group({
         classType: Rocket,
@@ -40,8 +39,8 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     ];
 
     this.weapons.forEach((weaponGroup) => {
-      scene.physics.add.overlap(weaponGroup, scene.enemies, handleBulletHitEnemy, null, scene)
-    })
+      scene.physics.add.overlap(weaponGroup, scene.enemies, handleBulletHitEnemy, null, scene);
+    });
 
     this.bullets = this.weapons[0];
 
@@ -61,13 +60,15 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       gravityY: 0,
       frequency: -1,
     });
-    this.particleEmitter.setDepth(1)
+    this.particleEmitter.setDepth(1);
     this.particleEmitter.startFollow(this, 0, 0, false);
   }
 
-  update() {
-    const player = this
-    const { scene, eKey, wasd } = player
+  update(time, delta) {
+    const frameScale = delta / 16.666; // Normalizes to 60 FPS
+
+    const player = this;
+    const { scene, eKey, wasd } = player;
 
     let yIsMoving = false;
     let xIsMoving = false;
@@ -124,8 +125,9 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       player.velocityY = -player.maxSpeed;
     }
 
-    player.x += player.velocityX;
-    player.y += player.velocityY;
+    // ✅ Scale position updates by frameScale
+    player.x += player.velocityX * frameScale;
+    player.y += player.velocityY * frameScale;
 
     if (yIsMoving || xIsMoving) {
       player.particleEmitter.ops.angle.loadConfig({
@@ -137,15 +139,15 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
       player.particleEmitter.emitParticle(2);
     }
 
-    // Stopping the ship with some cool friction
+    // ✅ Apply friction using exponent for frame independence
     if (!yIsMoving && player.velocityY !== 0) {
-      player.velocityY /= player.friction;
+      player.velocityY /= Math.pow(player.friction, frameScale);
       if (Math.abs(player.velocityY) < player.minVelocity) {
         player.velocityY = 0;
       }
     }
     if (!xIsMoving && player.velocityX !== 0) {
-      player.velocityX /= player.friction;
+      player.velocityX /= Math.pow(player.friction, frameScale);
       if (Math.abs(player.velocityX) < player.minVelocity) {
         player.velocityX = 0;
       }

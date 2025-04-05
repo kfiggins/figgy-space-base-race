@@ -7,22 +7,18 @@ import StrikerSpaceship from "../enemies/strikerSpaceship";
 import DroneSpaceship from "../enemies/droneSpaceship";
 import GuardSpaceship from "../enemies/guardSpaceship";
 
-
 class GameScene extends Phaser.Scene {
   constructor() {
     super("GameScene");
   }
 
-  preload() { }
+  preload() {}
 
   create() {
     const worldWidth = 3000;
     const worldHeight = 2000;
 
-    this.enemies = this.physics.add.group({
-      classType: EnemySpaceship,
-      runChildUpdate: true,
-    });
+    this.enemies = this.physics.add.group({ classType: EnemySpaceship, runChildUpdate: true });
     this.enemies.add(new GruntSpaceship(this, 500, 500));
     this.enemies.add(new StrikerSpaceship(this, 600, 600));
     this.enemies.add(new DroneSpaceship(this, 500, 600));
@@ -30,15 +26,12 @@ class GameScene extends Phaser.Scene {
 
     this.player = new PlayerSpaceship(this, 400, 300);
 
-
     this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
     this.add.tileSprite(0, 0, worldWidth, worldHeight, "starfield").setOrigin(0, 0);
-    
+
     this.cameras.main.setBounds(0, 0, worldWidth, worldHeight);
     this.cameras.main.startFollow(this.player, true, 0.09, 0.09);
     this.cameras.main.setDeadzone(100, 100);
-    
-    
 
     this.input.on("pointerdown", (pointer) => {
       const worldPoint = this.cameras.main.getWorldPoint(pointer.x, pointer.y);
@@ -46,8 +39,8 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  update() {
-    this.player.update();
+  update(time, delta) {
+    this.player.update(time, delta);
   }
 }
 
