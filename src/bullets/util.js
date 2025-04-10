@@ -1,7 +1,17 @@
 export const shoot = (scene, targetX, targetY) => {
   const bullet = scene.player.bullets.get();
   if (bullet) {
-    bullet.fire(scene.player.x, scene.player.y, targetX, targetY);
+    const pointer = scene.input.activePointer;
+        const angle = Phaser.Math.Angle.Between(
+          scene.player.turret.x, scene.player.turret.y,
+            pointer.worldX, pointer.worldY
+        );
+        
+        // Calculate the barrel end position
+        const barrelLength = 25; // Adjust based on your sprite's size and scale
+        const startX = scene.player.turret.x + Math.cos(angle) * barrelLength;
+        const startY = scene.player.turret.y + Math.sin(angle) * barrelLength;
+    bullet.fire(startX, startY, targetX, targetY);
   }
 }
 

@@ -23,6 +23,11 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
     this.particleAngle = 10;
     this.currentWeaponIndex = 0;
 
+    this.turret = scene.add.sprite(0, 0, "plasmaBarrel");
+    this.turret.setScale(0.3);
+    this.turret.setOrigin(0.5, .95);
+    this.turret.setDepth(9);
+
     this.weapons = [
       scene.physics.add.group({
         classType: Rocket,
@@ -69,6 +74,18 @@ export default class PlayerSpaceship extends Phaser.Physics.Arcade.Sprite {
 
     const player = this;
     const { scene, eKey, wasd } = player;
+
+    // Update turret position to follow the ship
+    this.turret.x = this.x;
+    this.turret.y = this.y; // Adjust the offset as needed
+    
+    // Make the turret rotate to face the mouse pointer
+    const pointer = scene.input.activePointer;
+    const angle = Phaser.Math.Angle.Between(
+        this.turret.x, this.turret.y,
+        pointer.worldX, pointer.worldY
+    );
+    this.turret.rotation = angle+Math.PI/2;
 
     let yIsMoving = false;
     let xIsMoving = false;
